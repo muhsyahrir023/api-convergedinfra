@@ -1,13 +1,14 @@
 const mysql = require('mysql2');
 
-const database = mysql.createConnection({
-     host: "sql.freedb.tech",
+const database = mysql.createPool({
+    host: "sql.freedb.tech",
     user: "freedb_cidev",
     password: "$33Q!TpYfaSe9gz",
-    database: "freedb_convergedinfra"
+    database: "freedb_convergedinfra",
+    acquireTimeout: 10000 // Menetapkan batas waktu akuisisi koneksi menjadi 10 detik (opsional, bisa disesuaikan)
 });
 
-database.connect((err) => {
+database.getConnection((err, connection) => {
     if (err) {
         console.error('Error connecting to database:', err);
         return;

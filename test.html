@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Problem Table</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-4">
+    <h2>Problem Table</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Request</th>
+          <th>Temporary</th>
+          <th>Permanent</th>
+          <th>Status</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody id="problem-table-body">
+        <!-- Data from API will be displayed here -->
+      </tbody>
+    </table>
+  </div>
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    // Perform request to the API
+    fetch('http://localhost:3001/views')
+      .then(response => response.json())
+      .then(data => {
+        // Insert data into the table
+        const tableBody = document.getElementById('problem-table-body');
+        data.forEach(problem => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${problem.request}</td>
+            <td>${problem.temporary}</td>
+            <td>${problem.permanent}</td>
+            <td>${problem.status}</td>
+            <td>${problem.date}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+      })
+      .catch(error => console.error('Error:', error));
+  </script>
+</body>
+</html>

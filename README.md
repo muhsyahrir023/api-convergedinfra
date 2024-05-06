@@ -1,3 +1,3 @@
 # [API - CI DEV]
 
-- API CI DEV INFR
+- API CI DEV INFRA

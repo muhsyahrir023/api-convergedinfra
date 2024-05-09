@@ -155,6 +155,13 @@ app.put('/edit-problem/:id', (req, res) => {
   });
 });
 
+app.get('/tableSizes', (req, res) => {
+  database.query('SELECT TABLE_SCHEMA AS `Database`, TABLE_NAME AS `Table`, ROUND((DATA_LENGTH + INDEX_LENGTH) / 1024 / 1024) AS `Size (MB)` FROM information_schema.TABLES WHERE TABLE_NAME IN ("problems", "users") ORDER BY (DATA_LENGTH + INDEX_LENGTH) DESC', (error, result) =>{
+    // hasil data dari mysql
+    response(200, result, 'Get Data Successfully', res )
+  })
+});
+
 
 app.listen(port, () => {
   console.log(`Converged Infra Dev app listening on port ${port}`)

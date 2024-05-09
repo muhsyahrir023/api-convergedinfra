@@ -156,12 +156,14 @@ app.put('/edit-problem/:id', (req, res) => {
 });
 
 app.get('/tableSizes', (req, res) => {
-  database.query('SELECT TABLE_SCHEMA AS `Database`, TABLE_NAME AS `Table`, ROUND((DATA_LENGTH + INDEX_LENGTH) / 1024 / 1024) AS `Size (MB)` FROM information_schema.TABLES WHERE TABLE_NAME IN ("problems", "users") ORDER BY (DATA_LENGTH + INDEX_LENGTH) DESC', (error, result) =>{
-    // hasil data dari mysql
-    response(200, result, 'Get Data Successfully', res )
-  })
+  database.query('SELECT TABLE_SCHEMA AS `Database`, TABLE_NAME AS `Table`, ROUND((DATA_LENGTH + INDEX_LENGTH) / 1024) AS `Size (KB)` FROM information_schema.TABLES WHERE TABLE_NAME IN ("problems", "users") ORDER BY (DATA_LENGTH + INDEX_LENGTH) DESC', (error, result) => {
+    if (error) {
+      console.error('Error fetching data: ' + error.stack);
+      return res.status(500).json({ message: 'Gagal mengambil data dari database' });
+    }
+    res.json(result);
+  });
 });
-
 
 app.listen(port, () => {
   console.log(`Converged Infra Dev app listening on port ${port}`)
